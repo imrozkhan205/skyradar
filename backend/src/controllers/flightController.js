@@ -6,7 +6,7 @@ export const getNearbyFlights = async(req, res) => {
         if(!lat || !lon){
             return res.status(400).json({message:"Missing lat/long params"});
         }
-        const offset = 1; // 1 degree in each direcn
+        const offset = 3; // 1 degree in each direcn
         const url = `https://opensky-network.org/api/states/all?lamin=${lat - offset}&lomin=${lon - offset}&lamax=${lat + offset}&lomax=${lon + offset}`;
 
 

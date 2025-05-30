@@ -1,55 +1,13 @@
-// src/components/FlightTracker.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { getBearing } from '../utils/geoUtils';
+// import MapView from './MapView';
 
 function FlightTracker() {
   const [flights, setFlights] = useState([]);
   const [position, setPosition] = useState(null);
   const [heading, setHeading] = useState(null);
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    // Get user's location
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords;
-        setPosition({ latitude, longitude });
-        fetchFlights(latitude, longitude);
-      },
-      (err) => {
-        setError('Failed to get location. Please enable location services.');
-      }
-    );
-
-    // Get user's compass heading
-    const handleOrientation = (event) => {
-      const compassHeading =
-        event.webkitCompassHeading ||
-        event.alpha || // fallback
-        null;
-      if (compassHeading !== null) {
-        setHeading(Math.round(compassHeading));
-      }
-    };
-
-    window.addEventListener('deviceorientationabsolute', handleOrientation, true);
-    return () => {
-      window.removeEventListener('deviceorientationabsolute', handleOrientation);
-    };
-  }, []);
-
-  const fetchFlights = async (lat, lon) => {
-    try {
-      const res = await fetch(
-        `http://localhost:5000/api/flights?lat=${lat}&lon=${lon}`
-      );
-      const data = await res.json();
-      setFlights(data);
-      console.log(data)
-    } catch (err) {
-      setError('Failed to fetch flight data.');
-    }
-  };
+  const [loading, setLoading] = useState(false);
 
   const getDirectionText = (bearing) => {
     const directions = [
@@ -60,40 +18,87 @@ function FlightTracker() {
     return directions[index];
   };
 
+  const handleOrientation = (event) => {
+    const compassHeading =
+      event.webkitCompassHeading ||
+      event.alpha || // fallback
+      null;
+    if (compassHeading !== null) {
+      setHeading(Math.round(compassHeading));
+    }
+  };
+
+  const handleFind = () => {
+    setLoading(true);
+    setError('');
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const { latitude, longitude } = pos.coords;
+        setPosition({ latitude, longitude });
+
+        // Add orientation listener
+        window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+
+        try {
+          const res = await fetch(
+            `http://localhost:5000/api/flights?lat=${latitude}&lon=${longitude}`
+          );
+          const data = await res.json();
+          setFlights(data);
+        } catch (err) {
+          setError('Failed to fetch flight data.');
+        } finally {
+          setLoading(false);
+        }
+      },
+      () => {
+        setError('Failed to get location. Please enable location services.');
+        setLoading(false);
+      }
+    );
+  };
+
   return (
-    <div style={{ marginTop: '20px' }}>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {position && (
-        <>
-          <p><strong>Your Heading:</strong> {heading ?? 'Calculating...'}°</p>
-          <h2>Nearby Flights</h2>
-          <ul>
-            {flights.map((flight, index) => {
-              const [icao24, callsign, origin_country, time_position, last_contact,
-                     longitude, latitude, baro_altitude] = flight;
+    
+    <div className='flex items-center py-10 '>
+      <div className='flex-col-1' >
+        <button className='flex  bg-red-500 p-3 mb-4 text-white rounded-sm ' onClick={handleFind}>
+          Find
+        </button>
 
-              if (latitude && longitude && position) {
-                const bearing = getBearing(
-                  position.latitude,
-                  position.longitude,
-                  latitude,
-                  longitude
-                );
-                const direction = getDirectionText(bearing);
+        {loading && <p>Loading...</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
 
-                return (
-                  <li key={icao24 + index} style={{ marginBottom: '10px' }}>
-                    <strong>{callsign || 'Unknown Flight'}</strong> from <em>{origin_country}</em> <br />
-                    Heading {direction} ({Math.round(bearing)}°), Altitude: {baro_altitude ? `${Math.round(baro_altitude)} m` : 'N/A'}
-                  </li>
-                );
-              }
-              return null;
-            })}
-          </ul>
-        </>
-      )}
-    </div>
+        {position && (
+          <>
+            <p> </p>
+            <h2 className='font-bold'>Nearby Flights:</h2>
+            <ul>
+              {flights.map((flight, index) => {
+                const [icao24, callsign, origin_country, , , lon, lat, baro_altitude] = flight;
+
+                if (lat && lon && position) {
+                  const bearing = getBearing(position.latitude, position.longitude, lat, lon);
+                  const direction = getDirectionText(bearing);
+
+                  return (
+                    
+                    <li key={icao24 + index} >
+                      <strong>✈️{callsign || 'Unknown Flight'}</strong>
+                       
+                      from <em>{origin_country}</em><br />
+                      Heading {direction} ({Math.round(bearing)}°), Altitude: {baro_altitude ? `${Math.round(baro_altitude)} m` : 'N/A'}
+                    </li>
+                    
+                  );
+                }
+                return null;
+              })}
+            </ul>
+          </>
+        )}
+      </div>
+      </div>
   );
 }
 
