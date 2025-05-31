@@ -1,13 +1,33 @@
 import FlightTracker from './components/FlightTracker'
+import LoginPage from './pages/LoginPage'
+import SignupPages from './pages/SignupPages'
+import { Route,Routes } from 'react-router'
+import {Toaster} from "react-hot-toast"
+import { useQuery } from '@tanstack/react-query'
+import { axiosInstance } from './lib/axios.js'
 
 function App() {
-  return (
+   const { data, isLoading, error } = useQuery({
+    queryKey: ["authUser"],
+    queryFn: async () => {
+      const res = await axiosInstance.get('/auth/me');
+      return res.data;
+    },
+    retry: false,
+  });
+  console.log(data);
+  
+  // tansack query
 
-      <div className='px-5'>
-      <h1 className='flex items-start text-3xl font-bold py-3'>Skyradar</h1>
-      <FlightTracker/>
+  return (
+      <div className='h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white '>
+        <Routes>
+          <Route path='/' element={<FlightTracker/>} />
+          <Route path='/signup' element={<SignupPages/>} />
+          <Route path='/login' element={<LoginPage/>}/>
+        </Routes>
+        <Toaster />
     </div>
-    
   )
 }
 

@@ -82,3 +82,20 @@ export const logout = async(req, res)=>{
     res.status(200).json({success: true, message: "Logout successful"})
 
 }
+
+
+export const getMe = async (req, res) => {
+  try {
+    // Check if user is authenticated (adjust based on your auth method)
+    // Example for JWT:
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    
+    // Return the authenticated user
+    res.json(req.user);
+  } catch (error) {
+    console.error("Error in getMe:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
