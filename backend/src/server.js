@@ -8,12 +8,21 @@ import { connectDB } from "./libs/db.js";
 
 const app = express();
 const PORT= process.env.PORT;
+
+
 app.use(cors({
-    origin:[ "http://localhost:5173",
-        "https://skyradar-seven.vercel.app/"
-    ],
-    credentials: true, // allow frontend to send the cookies
+    origin: function (origin, callback) {
+        if (!origin || 
+            origin.includes('localhost') || 
+            origin.includes('vercel.app')) {
+            callback(null, true);
+        } else {
+            callback(null, false);
+        }
+    },
+    credentials: true,
 }));
+
 app.use(express.json());
 app.use('/api/flights', flightRoutes)
 app.use('/api/auth', authRoutes)
