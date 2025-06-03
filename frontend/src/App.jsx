@@ -5,7 +5,8 @@ import { Route, Routes, Navigate } from 'react-router-dom'
 import { Toaster } from "react-hot-toast"
 import { useQuery } from '@tanstack/react-query'
 import { axiosInstance } from './lib/axios.js'
-
+import TermsAndService from './pages/TermsAndService.jsx'
+import PrivacyPolicy from './pages/PrivacyPolicy.jsx'
 function App() {
   const { data: authUser, isLoading, error } = useQuery({
     queryKey: ["authUser"],
@@ -51,6 +52,11 @@ function App() {
           path='*' 
           element={<Navigate to={authUser ? "/" : "/signup"} replace />} 
         />
+
+        <Route path='/terms' element={<TermsAndService/>}></Route>
+
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+
       </Routes>
       <Toaster />
     </div>

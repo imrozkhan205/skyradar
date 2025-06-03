@@ -108,8 +108,8 @@ const SignupPages = () => {
                       <input type="checkbox" className="checkbox checkbox-sm" required />
                       <span className="text-xs leading-tight">
                          I agree to the {" "}
-                         <span className="text-primary hover:underline cursor-pointer">terms of service</span> and {" "}
-                         <span className="text-primary hover:underline cursor-pointer">privacy policy</span>
+                         <Link to='/terms' className="text-primary hover:underline cursor-pointer">terms of service</Link> and {" "}
+                         <Link to='/privacy' className="text-primary hover:underline cursor-pointer">privacy policy</Link>
                       </span>
                     </label>
                   </div>
