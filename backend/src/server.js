@@ -9,7 +9,9 @@ import { connectDB } from "./libs/db.js";
 const app = express();
 const PORT= process.env.PORT;
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin:[ "http://localhost:5173",
+        "https://skyradar-757o-six.vercel.app/"
+    ],
     credentials: true, // allow frontend to send the cookies
 }));
 app.use(express.json());
