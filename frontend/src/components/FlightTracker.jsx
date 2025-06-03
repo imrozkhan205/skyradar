@@ -70,7 +70,7 @@ function FlightTracker() {
 
         try {
           const res = await fetch(
-            `http://localhost:5000/api/flights?lat=${latitude}&lon=${longitude}`
+            `https://skyradar-0ozt.onrender.com/api/flights?lat=${latitude}&lon=${longitude}`
           );
           const data = await res.json();
           setFlights(data);
