@@ -10,7 +10,7 @@ const app = express();
 const PORT= process.env.PORT;
 app.use(cors({
     origin:[ "http://localhost:5173",
-        "https://skyradar-757o-six.vercel.app/"
+        "https://skyradar-seven.vercel.app/"
     ],
     credentials: true, // allow frontend to send the cookies
 }));
