@@ -91,7 +91,7 @@ function FlightTracker() {
     // Example: Clear local storage/session and redirect
     localStorage.clear();
     sessionStorage.clear();
-    window.location.href = "/login"; // or use a navigate function if using React Router
+    window.location.href = "/login"; 
   };
 
   return (
@@ -150,7 +150,6 @@ function FlightTracker() {
           </div>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-4 mb-6 flex items-center gap-3">
             <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
@@ -158,7 +157,6 @@ function FlightTracker() {
           </div>
         )}
 
-        {/* Position Info */}
         {position && (
           <div className="bg-green-500/20 border border-green-500/30 rounded-xl p-4 mb-6">
             <div className="flex items-center gap-3 mb-2">
@@ -175,7 +173,6 @@ function FlightTracker() {
           </div>
         )}
 
-        {/* Flights List */}
         {position && flights.length > 0 && (
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
             <div className="bg-white/10 px-6 py-4 border-b border-white/10">
@@ -277,7 +274,6 @@ function FlightTracker() {
           </div>
         )}
 
-        {/* Empty State */}
         {position && flights.length === 0 && !loading && (
           <div className="text-center py-12">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-full mb-4">

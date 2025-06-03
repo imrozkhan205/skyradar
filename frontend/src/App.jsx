@@ -17,7 +17,7 @@ function App() {
     retry: false,
   });
 
-  console.log(authUser);
+  // console.log(authUser);
 
   // Show loading spinner while checking authentication
   if (isLoading) {
@@ -31,13 +31,11 @@ function App() {
   return (
     <div className='h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white'>
       <Routes>
-        {/* Protected route - only accessible if user is authenticated */}
         <Route 
           path='/' 
           element={authUser ? <FlightTracker /> : <Navigate to="/signup" replace />} 
         />
         
-        {/* Public routes - redirect to home if already authenticated */}
         <Route 
           path='/signup' 
           element={authUser ? <Navigate to="/" replace /> : <SignupPages />} 
@@ -47,7 +45,6 @@ function App() {
           element={authUser ? <Navigate to="/" replace /> : <LoginPage />} 
         />
         
-        {/* Catch all route - redirect to signup if not authenticated, home if authenticated */}
         <Route 
           path='*' 
           element={<Navigate to={authUser ? "/" : "/signup"} replace />} 

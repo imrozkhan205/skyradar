@@ -22,9 +22,7 @@ const SignupPages = () => {
     },
     onSuccess: (data) => {
       toast.success("Account created successfully!");
-      // Update the auth user query
       queryClient.setQueryData(["authUser"], data);
-      // Navigate to home page
       navigate('/');
     },
     onError: (error) => {
@@ -35,7 +33,6 @@ const SignupPages = () => {
   const handleSignup = (e) => {
     e.preventDefault();
     
-    // Basic validation
     if (!signupData.email || !signupData.password) {
       toast.error("Please fill in all fields");
       return;
@@ -115,7 +112,6 @@ const SignupPages = () => {
                   </div>
                 </div>
                 
-                {/* Display error if any */}
                 {error && (
                   <div className="alert alert-error">
                     <span>{error.response?.data?.message || "Signup failed. Please try again."}</span>
@@ -145,7 +141,6 @@ const SignupPages = () => {
 
         <div className="hidden lg:flex w-full lg:w-1/2 bg-primary/10 items-center justify-center">
           <div className="max-w-md p-8">
-            {/* Illustration */}
             <div className="relative aspect-square max-w-sm mx-auto">
               <img src="/airplane2.png" alt="Flight tracking illustration" className="w-full h-full"/>
             </div>
