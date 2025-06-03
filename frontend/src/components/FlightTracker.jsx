@@ -7,6 +7,7 @@ import {
   AlertCircle,
   Loader2,
   Radar,
+  LogOut,
 } from "lucide-react";
 import { getBearing } from "../utils/geoUtils.js";
 
@@ -86,11 +87,18 @@ function FlightTracker() {
     );
   };
 
+  const handleLogout = () => {
+    // Example: Clear local storage/session and redirect
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "/login"; // or use a navigate function if using React Router
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white">
       {/* Header */}
       <div className="bg-black/20 backdrop-blur-sm border-b border-white/10">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-blue-500/20 rounded-lg">
               <Radar className="w-6 h-6 text-blue-400" />
@@ -99,6 +107,13 @@ function FlightTracker() {
               SkyRadar
             </h1>
           </div>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 text-sm px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white transition-all duration-200"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </button>
         </div>
       </div>
 
@@ -272,8 +287,8 @@ function FlightTracker() {
               No Flights Detected
             </h3>
             <p className="text-white/60">
-              There are currently no aircraft visible in your area. Try again in
-              a few moments.
+              There are currently no aircraft visible in your area. Try again
+              in a few moments.
             </p>
           </div>
         )}
