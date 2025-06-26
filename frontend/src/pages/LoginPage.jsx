@@ -136,7 +136,7 @@ const LoginPage = () => {
           <div className="max-w-md p-8">
             {/* Illustration */}
             <div className="relative aspect-square max-w-sm mx-auto">
-              <img src="/airplane2.png" alt="Flight tracking illustration" className="w-full h-full" />
+              <img src="/airplane2.webp" alt="Flight tracking illustration" className="w-full h-full" />
             </div>
 
             <div className="text-center space-y-3 mt-6">

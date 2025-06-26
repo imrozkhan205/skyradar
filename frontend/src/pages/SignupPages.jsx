@@ -142,7 +142,7 @@ const SignupPages = () => {
         <div className="hidden lg:flex w-full lg:w-1/2 bg-primary/10 items-center justify-center">
           <div className="max-w-md p-8">
             <div className="relative aspect-square max-w-sm mx-auto">
-              <img src="/airplane2.png" alt="Flight tracking illustration" className="w-full h-full"/>
+              <img src="/airplane2.webp" alt="Flight tracking illustration" className="w-full h-full"/>
             </div>
             <div className="text-center space-y-3 p-3">
               <h3 className="text-xl font-semibold px-7">Locate every plane flying over your head</h3>
