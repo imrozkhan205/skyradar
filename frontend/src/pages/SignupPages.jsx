@@ -63,7 +63,7 @@ const SignupPages = () => {
               <div className="space-y-4">
                 <div>
                   <h2 className="text-xl font-semibold">Create an account</h2>
-                  <p className="text-sm opacity-70">
+                  <p className="text-sm">
                     Check which planes are flying over your head
                   </p>
                 </div>
